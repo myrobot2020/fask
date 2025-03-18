@@ -2,12 +2,12 @@ import pickle
 import numpy as np
 from flask import Flask, render_template, request
 
-# Load the trained model BEFORE initializing Flask
+# Initialize Flask app FIRST
+app = Flask(__name__)
+
+# Load the trained model AFTER initializing Flask
 with open("model.pkl", "rb") as file:
     model = pickle.load(file)
-
-# Initialize Flask app
-app = Flask(__name__)
 
 @app.route("/", methods=["GET", "POST"])
 def home():
@@ -35,4 +35,4 @@ def home():
 
 # Run Flask app safely
 if __name__ == "__main__":
-    app.run(debug=True, use_reloader=False)  # Prevent auto-reloader issues
+    app.run(host="0.0.0.0", port=5000, debug=True, use_reloader=False)
